@@ -1,0 +1,41 @@
+@commands.command()
+async def book(self,ctx, date,STime,ETime,*arg):
+  if int(STime) > 2400 or int(ETime) >2400:
+    await ctx.channel.send('你輸入的時間有誤')
+    return
+
+  findDate = False
+  date = date[:2] + '-' + date[2:]
+  sheet = ConnetToSheet()
+  cell = sheet.get_all_values()
+
+  for index,i in enumerate(cell):
+    if i[0].find(date) >= 0:
+      findDate = True
+      dontCome = ''
+      remark = ''
+      if len(arg) >= 1:
+        if arg[0] == 'y':
+          dontCome = '請勿打擾'
+      if len(arg) >= 2:
+        remark = arg[1]
+
+      if i[1] == '':  #檢查當天時間是否為空值
+        i[1:] = (str(STime),str(ETime),dontCome,remark)
+        #print(cell)
+        sheet.batch_update([{'range': 'A2','values': cell[1:]}])
+        await ctx.channel.send(f'已幫你預約{date}  {STime}至{ETime+"|"+ dontCome +"|" + remark} |0 w0+' )
+      elif is_time_overlap(i[1],i[2],STime,ETime) == False:
+        print(cell)
+        cell.insert(index + 1,['',str(STime),str(ETime),dontCome,remark])
+        print(cell)
+        sheet.batch_update([{'range': 'A2','values': cell[1:]}])
+        await ctx.channel.send(f'已幫你預約{date}  {STime}至{ETime+"|"+ dontCome +"|" + remark} |0 w0+' )
+      else:
+        await ctx.channel.send('someone has been booked')
+      break
+
+  if not findDate:
+    await ctx.channel.send('超出預定日子(30天內)')
+
+  await ctx.channel.send(ShowAll())
