@@ -9,8 +9,8 @@ import json
 import random
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
-with open('setting.json', 'r',encoding='utf8') as jfile:
-    jdata = json.load(jfile)
+# with open('setting.json', 'r',encoding='utf8') as jfile:
+#     jdata = json.load(jfile)
 
 class Mains(Cog_Extension):
 
@@ -93,9 +93,9 @@ class Mains(Cog_Extension):
         print("shutdown")
         exit()
 
-def SaveJson():
-    with open('setting.json', 'w') as jfile:
-        json.dump(jdata, jfile)
+# def SaveJson():
+#     with open('setting.json', 'w') as jfile:
+#         json.dump(jdata, jfile)
 
 def RemoveTimeOutOfDate(timeList):
     for time in timeList:

@@ -1,0 +1,5 @@
+discord.py
+flask
+asyncio
+gspread
+oauth2client

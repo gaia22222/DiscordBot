@@ -7,8 +7,8 @@ import time
 from Globle import NowTime  
 from datetime import datetime, timedelta
 from discord.ext import tasks, commands
-with open('onlineRecord.json', 'r',encoding='utf8') as jfile:
-    jdata = json.load(jfile)
+# with open('onlineRecord.json', 'r',encoding='utf8') as jfile:
+#     jdata = json.load(jfile)
 class KCmonitor(Cog_Extension):
     @commands.Cog.listener()
     async def on_ready(self):
@@ -54,17 +54,17 @@ class KCmonitor(Cog_Extension):
                 await sendChannel.send(str(NowTime())[:-10]+' '+member.status.value+ ' '+ sleep)
                 
 
-    @tasks.loop(hours=24)
-    async def RemoveTimeOutOfDate(self):
-        for time in jdata['Record']['Status Change Record']:
-            tempTime = datetime.strptime(time[1], '%Y-%m-%d %H:%M')
-            if((NowTime() - tempTime).seconds > 1):
-                jdata['Record']['Status Change Record'].remove(time)
-        SaveJson()
+    # @tasks.loop(hours=24)
+    # async def RemoveTimeOutOfDate(self):
+    #     for time in jdata['Record']['Status Change Record']:
+    #         tempTime = datetime.strptime(time[1], '%Y-%m-%d %H:%M')
+    #         if((NowTime() - tempTime).seconds > 1):
+    #             jdata['Record']['Status Change Record'].remove(time)
+    #     SaveJson()
 
-def SaveJson():
-    with open('onlineRecord.json', 'w') as jfile:
-        json.dump(jdata, jfile)
+# def SaveJson():
+#     with open('onlineRecord.json', 'w') as jfile:
+#         json.dump(jdata, jfile)
 
 async def setup(bot):
     await bot.add_cog(KCmonitor(bot))

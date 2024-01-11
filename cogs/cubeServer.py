@@ -1,8 +1,6 @@
 import discord
 from discord.ext import tasks,commands
 from core.classes import Cog_Extension
-import time
-import asyncio
 from datetime import datetime, timedelta
 from Globle import NowTime
 import gspread
