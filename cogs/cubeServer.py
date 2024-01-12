@@ -11,7 +11,8 @@ class cubeServer(Cog_Extension):
     async def on_ready(self):
       self.UpdateSheet.start()
 
-    @commands.command()
+    #@commands.command()
+    @commands.hybrid_command(name='Sbook', help='Show booking')
     async def Sbook(self,ctx):
       await ctx.channel.send(ShowAll())
       
