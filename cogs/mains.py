@@ -13,6 +13,12 @@ from oauth2client.service_account import ServiceAccountCredentials
 #     jdata = json.load(jfile)
 
 class Mains(Cog_Extension):
+    
+    @commands.command()
+    @commands.is_owner()
+    async def exit(self,ctx):
+        await ctx.send('下線中...')
+        await self.bot.close()
 
     @commands.command()
     async def ping(self,ctx):
