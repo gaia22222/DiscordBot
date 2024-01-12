@@ -10,7 +10,7 @@ from datetime import datetime, timedelta
 intents = discord.Intents.all()
 intents.presences = True
 intents.members = True
-bot = commands.Bot(command_prefix='!', intents=intents)
+bot = commands.Bot(command_prefix='!',owner_id = 334553910520053762, intents=intents)
 
 @bot.event
 async def on_ready():
