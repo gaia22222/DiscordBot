@@ -23,6 +23,10 @@ class Event(Cog_Extension):
         #     await msg.channel.send('have b')
         # if('c' in msg.content):
         #     await msg.channel.send('have c')
+    @commands.command()
+    @commands.is_owner()
+    async def exit(self,ctx):
+        await ctx.bot.logout()
 
 async def setup(bot):
     await bot.add_cog(Event(bot))
