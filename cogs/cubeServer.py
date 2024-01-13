@@ -8,12 +8,11 @@ from oauth2client.service_account import ServiceAccountCredentials
 
 class cubeServer(Cog_Extension):
     @commands.Cog.listener()
-    async def on_ready(self):
+    async def on_ready(self,bot):
       self.UpdateSheet.start()
 
-    #@commands.command()
-    @commands.hybrid_command(name='Sbook', help='Show booking')
-    async def Sbook(self,ctx):
+    @commands.hybrid_command(name='sbook', help='Show booking')  
+    async def sbook(self,ctx):
       await ctx.channel.send(ShowAll())
       
     @tasks.loop(seconds=1800.0)
@@ -41,7 +40,7 @@ class cubeServer(Cog_Extension):
         #print(cell)
       print('finish')
 
-    @commands.command()
+    @commands.hybrid_command() 
     async def book(self,ctx, date,STime,ETime,*arg):
       if int(STime) > 2400 or int(ETime) >2400:
         await ctx.channel.send('你輸入的時間有誤')
@@ -81,8 +80,8 @@ class cubeServer(Cog_Extension):
     
       await ctx.channel.send(ShowAll())
       
-    @commands.command()
-    async def bookingClear(self,ctx,date,Stime):
+    @commands.hybrid_command() 
+    async def booking_clear(self,ctx,date,Stime):
       sheet = ConnetToSheet()
       date = date[:2] + '-' + date[2:]
       if date == '':

@@ -15,6 +15,8 @@ bot = commands.Bot(command_prefix='!',owner_id = 334553910520053762, intents=int
 @bot.event
 async def on_ready():
     print('目前登入身份：', bot.user,flush=True)
+    synced = await bot.tree.sync()
+    print(f"Synced {synced} commands",flush=True)
     print('time.now = ', NowTime())
     await bot.change_presence(status=discord.Status.online,
                               activity=discord.Game('維修中0u0'))
