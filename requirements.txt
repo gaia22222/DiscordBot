@@ -3,3 +3,4 @@ flask
 asyncio
 gspread
 oauth2client
+groq
