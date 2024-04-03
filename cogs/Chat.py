@@ -6,8 +6,29 @@ import string
 import random
 import typing
 import os
+from groq import Groq
 
 class Chat(Cog_Extension):
+  
+  @commands.hybrid_command(name='ai', help='Book room') 
+  async def ai(self,ctx):
+    groq = Groq(api_key=os.environ['GroqKey'])
+    chat_completion = groq.chat.completions.create(
+      messages=[
+          {
+              "role": "system",
+              "content": "請以中文回答"
+          },
+          {
+              "role": "user",
+              "content": ctx.message.content.replace('!ai','')
+          }
+      ],
+      model="mixtral-8x7b-32768",
+    )
+    print(chat_completion.choices[0].message.content)
+    await ctx.channel.send(chat_completion.choices[0].message.content)
+    
   '''
   @commands.Cog.listener()
   async def on_message(self,msg):
