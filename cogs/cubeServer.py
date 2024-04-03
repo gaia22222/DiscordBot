@@ -11,7 +11,7 @@ class cubeServer(Cog_Extension):
     async def on_ready(self,bot):
       self.UpdateSheet.start()
 
-    @commands.hybrid_command(name='sbook', help='Show booking')  
+    @commands.command()
     async def sbook(self,ctx):
       await ctx.channel.send(ShowAll())
       
@@ -40,7 +40,7 @@ class cubeServer(Cog_Extension):
         #print(cell)
       print('finish')
 
-    @commands.hybrid_command() 
+    @commands.command() 
     async def book(self,ctx, date,STime,ETime,*arg):
       if int(STime) > 2400 or int(ETime) >2400:
         await ctx.channel.send('你輸入的時間有誤')
@@ -80,7 +80,7 @@ class cubeServer(Cog_Extension):
     
       await ctx.channel.send(ShowAll())
       
-    @commands.hybrid_command() 
+    @commands.command() 
     async def booking_clear(self,ctx,date,Stime):
       sheet = ConnetToSheet()
       date = date[:2] + '-' + date[2:]

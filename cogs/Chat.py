@@ -10,7 +10,7 @@ from groq import Groq
 
 class Chat(Cog_Extension):
   
-  @commands.hybrid_command(name='ai', help='Book room') 
+  @commands.command() 
   async def ai(self,ctx):
     groq = Groq(api_key=os.environ['GroqKey'])
     chat_completion = groq.chat.completions.create(
