@@ -12,27 +12,31 @@ class Chat(Cog_Extension):
   @commands.command() 
   async def ai(self,ctx):
     groq = Groq(api_key=os.environ['GroqKey'])
-    chat_completion = groq.chat.completions.create(
-      messages=[
-          {
-              "role": "system",
-              "content": "請以中文回答"
-          },
-          {
-              "role": "user",
-              "content": ctx.message.content.replace('!ai','')
-          }
-      ],
-      model="mixtral-8x7b-32768",
-      temperature=0.5,
-      max_tokens=2048,
-      top_p=0.8,
-      stream=True,
-      stop=None,
-    )
-    #print(chat_completion.choices[0].message.content)
-    await ctx.channel.send(chat_completion.choices[0].message.content)
-    
+    try:
+      async with ctx.channel.typing():
+        promp = ctx.message.content.replace('!ai','')
+        chat_completion = groq.chat.completions.create(
+            messages=[
+                {
+                    "role": "system",
+                    "content": "請一定要以繁體中文回答，內容最好風趣幽默"
+                },
+                {
+                    "role": "user",
+                    "content": promp
+                }
+            ],
+            model="mixtral-8x7b-32768",
+            max_tokens=2048,
+            top_p=0.8,
+            temperature=0.5,
+        )
+        #print(chat_completion.choices[0].message.content)
+        await ctx.channel.send(chat_completion.choices[0].message.content)
+    except Exception as e:
+      await ctx.channel.send("An error occurred during the request")
+      print("Something went wrong")
+      print(e)
   '''
   @commands.Cog.listener()
   async def on_message(self,msg):
