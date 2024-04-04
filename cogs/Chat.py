@@ -24,8 +24,13 @@ class Chat(Cog_Extension):
           }
       ],
       model="mixtral-8x7b-32768",
+      temperature=0.5,
+      max_tokens=2048,
+      top_p=0.8,
+      stream=True,
+      stop=None,
     )
-    print(chat_completion.choices[0].message.content)
+    #print(chat_completion.choices[0].message.content)
     await ctx.channel.send(chat_completion.choices[0].message.content)
     
   '''
