@@ -10,7 +10,7 @@ from groq import Groq
 class Chat(Cog_Extension):
   
   @commands.command() 
-  async def ai(self,ctx):
+  async def ask(self,ctx):
     groq = Groq(api_key=os.environ['GroqKey'])
     try:
       async with ctx.channel.typing():

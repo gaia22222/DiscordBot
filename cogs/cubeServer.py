@@ -12,7 +12,7 @@ class cubeServer(Cog_Extension):
       self.UpdateSheet.start()
 
     @commands.command()
-    async def sbook(self,ctx):
+    async def Sbook(self,ctx):
       await ctx.channel.send(ShowAll())
       
     @tasks.loop(seconds=1800.0)
