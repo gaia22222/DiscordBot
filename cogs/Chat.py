@@ -14,7 +14,7 @@ class Chat(Cog_Extension):
     groq = Groq(api_key=os.environ['GroqKey'])
     try:
       async with ctx.channel.typing():
-        promp = ctx.message.content.replace('!ai','')
+        promp = ctx.message.content.replace('!ask','')
         chat_completion = groq.chat.completions.create(
             messages=[
                 {
