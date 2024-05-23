@@ -8,12 +8,21 @@ from oauth2client.service_account import ServiceAccountCredentials
 
 class cubeServer(Cog_Extension):
     @commands.Cog.listener()
-    async def on_ready(self,bot):
+    async def on_ready(self):
       self.UpdateSheet.start()
 
     @commands.command()
     async def Sbook(self,ctx):
       await ctx.channel.send(ShowAll())
+
+    #@tasks.loop(seconds=2.0)
+    async def UpdateSheetSimple(self):
+      sheet = ConnetToSheet()
+      cell = sheet.get_all_values()
+
+      if str(cell[1][0]).find(NowTime().strftime("%m-%d")) < 0:
+        print('123')
+      print('finish')
       
     @tasks.loop(seconds=1800.0)
     async def UpdateSheet(self):
