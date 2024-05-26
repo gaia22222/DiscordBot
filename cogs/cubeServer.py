@@ -90,7 +90,8 @@ class cubeServer(Cog_Extension):
       await ctx.channel.send(ShowAll())
       
     @commands.command() 
-    async def booking_clear(self,ctx,date,Stime):
+    async def bookingClear(self,ctx,date,Stime):
+      print('so')
       sheet = ConnetToSheet()
       date = date[:2] + '-' + date[2:]
       if date == '':
