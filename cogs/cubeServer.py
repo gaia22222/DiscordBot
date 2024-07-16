@@ -11,7 +11,7 @@ class cubeServer(Cog_Extension):
     async def on_ready(self):
       self.UpdateSheet.start()
 
-    @commands.command()
+    @commands.command(brief='Show Booking', description='Show Booking')
     async def Sbook(self,ctx):
       await ctx.channel.send(ShowAll())
 
@@ -49,7 +49,7 @@ class cubeServer(Cog_Extension):
         #print(cell)
       print('finish')
 
-    @commands.command() 
+    @commands.command(brief='!book [date] [StartTime] [EndTime] [remark] [請勿打擾]', description='!book [date] [StartTime] [EndTime] [remark] [請勿打擾]') 
     async def book(self,ctx, date,STime,ETime,*arg):
       if int(STime) > 2400 or int(ETime) >2400:
         await ctx.channel.send('你輸入的時間有誤')
@@ -89,7 +89,7 @@ class cubeServer(Cog_Extension):
     
       await ctx.channel.send(ShowAll())
       
-    @commands.command() 
+    @commands.command(brief='!bookingClear [date] [Stime]', description='!bookingClear [date] [Stime]') 
     async def bookingClear(self,ctx,date,Stime):
       print('so')
       sheet = ConnetToSheet()

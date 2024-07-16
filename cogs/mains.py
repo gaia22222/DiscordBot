@@ -14,7 +14,7 @@ from oauth2client.service_account import ServiceAccountCredentials
 
 class Mains(Cog_Extension):
     
-    @commands.command()
+    @commands.command(hidden=True)
     @commands.is_owner()
     async def exit(self,ctx):
         await ctx.send('下線中...')
@@ -47,12 +47,6 @@ class Mains(Cog_Extension):
             SaveJson()
         
         await ctx.send(f'乖寶寶  {username}  在 {timeNow[:-3]} 睡覺啦!!')
-    @commands.command()
-    async def c(self,ctx):
-        #print(GetTargetTime())
-        #asyncio.sleep(5)
-        return
-        await ctx.send(f'{CheckMeetTarget()}')
 
     @commands.command()
     async def clear(self,ctx,count : int):
@@ -79,13 +73,13 @@ class Mains(Cog_Extension):
     @commands.command()
     async def print(self,ctx):
       print(ctx.message.content)
-    @commands.command()
+    @commands.command(hidden=True)
     async def rp(self, ctx, *arg):
         with open('princessKey.json', 'r',encoding='utf8') as princessfile:
             princessData = json.load(princessfile)
         print(princessData[f'{random.randint(0,len(princessData))}'])
         await ctx.channel.send(file=discord.File('./img/PrincessIcon/'+princessData[f'{random.randint(0,len(princessData))}']))
-    @commands.command()
+    @commands.command(hidden=True)
     async def expend(self,ctx, *arg):
       if len(arg) < 3:
         return
@@ -93,7 +87,7 @@ class Mains(Cog_Extension):
       await ctx.channel.send(Expend(arg[0],arg[1],arg[2],lastMsg))
     
     #@tasks.loop(hours=24)
-    @commands.command()
+    @commands.command(hidden=True)
     @commands.is_owner()
     async def shutdown(self,ctx):
         print("shutdown")
