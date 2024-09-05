@@ -26,10 +26,11 @@ class cubeServer(Cog_Extension):
       
     @tasks.loop(seconds=1800.0)
     async def UpdateSheet(self):
+      print('len(cell)')
       sheet = ConnetToSheet()
       cell = sheet.get_all_values()
       #print(NowTime().strftime("%m-%d"))
-      #print(len(cell))
+      print('len(cell)'+len(cell))
       if str(cell[1][0]).find(NowTime().strftime("%m-%d")) < 0:
         cell.pop(1)
         while cell[1][0] == '':
@@ -49,45 +50,46 @@ class cubeServer(Cog_Extension):
         #print(cell)
       print('finish')
 
-    @commands.command(brief='!book [date] [StartTime] [EndTime] [remark] [請勿打擾]', description='!book [date] [StartTime] [EndTime] [remark] [請勿打擾]') 
-    async def book(self,ctx, date,STime,ETime,*arg):
-      if int(STime) > 2400 or int(ETime) >2400:
-        await ctx.channel.send('你輸入的時間有誤')
+    @commands.hybrid_command(brief='!book [date] [StartTime] [EndTime] [remark] [請勿打擾]', description='!book [date] [StartTime] [EndTime] [remark] [請勿打擾]') 
+    async def book(self,ctx, date : str,stime : int, etime : int, remark : str,dont_come):
+
+      if int(stime) > 2400 or int(etime) >2400:
+        await ctx.send('你輸入的時間有誤')
         return
         
       findDate = False
       date = date[:2] + '-' + date[2:]
       sheet = ConnetToSheet()
       cell = sheet.get_all_values()
-
       for index,i in enumerate(cell):
         if i[0].find(date) >= 0:
           findDate = True
-          dontCome = '請勿打擾'
-          remark = ''
-          remark = arg[0] if len(arg) >= 1 else ''
-          if len(arg) >= 2:
-            dontCome = arg[1]
+          dontCome = '請勿打擾' if dont_come != '' else ''
             
           if i[1] == '':  #檢查當天時間是否為空值
-            i[1:] = (str(STime),str(ETime),remark,dontCome)
-            #print(cell)
-            sheet.batch_update([{'range': 'A2','values': cell[1:]}])
-            await ctx.channel.send(f'已幫你預約{date}  {STime}至{ETime+"|"+ remark +"|" + dontCome} |0 w0+' )
-          elif is_time_overlap(i[1],i[2],STime,ETime) == False:
-            print(cell)
-            cell.insert(index + 1,['',str(STime),str(ETime),remark,dontCome])
+            i[1:] = (str(stime),str(etime),remark,dontCome)
             print(cell)
             sheet.batch_update([{'range': 'A2','values': cell[1:]}])
-            await ctx.channel.send(f'已幫你預約{date}  {STime}至{ETime+"|"+ remark +"|" + dontCome} |0 w0+' )
+            try:
+              await ctx.send(f'已幫你預約{date}  {stime}至 {etime} {"|"+ remark +"|" } {"|" + dontCome}|0 w0+' )
+            except Exception as e:
+                print(f"Error syncing commands: {e}")
+            
+            #await ctx.send(f'已幫你預約{date}  {stime}至 {etime+"|"+ remark +"|" + dont_come} |0 w0+' )
+          elif is_time_overlap(i[1],i[2],stime,etime) == False:
+            print(cell)
+            cell.insert(index + 1,['',str(stime),str(etime),remark,dontCome])
+            print(cell)
+            sheet.batch_update([{'range': 'A2','values': cell[1:]}])
+            await ctx.send(f'已幫你預約{date}  {stime}至 {etime} {"|"+ remark +"|" } {"|" + dontCome}|0 w0+' )
           else:
-            await ctx.channel.send('someone has been booked')
+            await ctx.send('someone has been booked')
           break
           
       if not findDate:
-        await ctx.channel.send('超出預定日子(30天內)')
+        await ctx.send('超出預定日子(30天內)')
     
-      await ctx.channel.send(ShowAll())
+      await ctx.send(str(ShowAll()))
       
     @commands.command(brief='!bookingClear [date] [Stime]', description='!bookingClear [date] [Stime]') 
     async def bookingClear(self,ctx,date,Stime):
