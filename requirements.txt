@@ -4,3 +4,5 @@ asyncio
 gspread
 oauth2client
 groq
+google-generativeai
+grpcio==1.67.1

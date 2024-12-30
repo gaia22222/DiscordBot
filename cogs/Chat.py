@@ -5,34 +5,26 @@ import string
 import random
 import typing
 import os
-from groq import Groq
+#from groq import Groq
+import google.generativeai as genai
+
 
 class Chat(Cog_Extension):
   
   @commands.command() 
   async def ask(self,ctx):
-    groq = Groq(api_key=os.environ['GroqKey'])
+    genai.configure(api_key=os.environ.get('GeminiAI'))
     try:
       async with ctx.channel.typing():
         promp = ctx.message.content.replace('!ask','')
-        chat_completion = groq.chat.completions.create(
-            messages=[
-                {
-                    "role": "system",
-                    "content": "請一定要以繁體中文回答，內容最好風趣幽默"
-                },
-                {
-                    "role": "user",
-                    "content": promp
-                }
-            ],
-            model="mixtral-8x7b-32768",
-            max_tokens=2048,
-            top_p=0.8,
-            temperature=0.5,
-        )
-        #print(chat_completion.choices[0].message.content)
-        await ctx.channel.send(chat_completion.choices[0].message.content)
+        model = genai.GenerativeModel("gemini-1.5-flash")
+        response = model.generate_content(promp,
+            generation_config = genai.GenerationConfig(
+            max_output_tokens=1000,
+            temperature=0.1,
+            ))
+        #print(response.text)
+        await ctx.channel.send(response.text)
     except Exception as e:
       await ctx.channel.send("An error occurred during the request")
       print("Something went wrong")
