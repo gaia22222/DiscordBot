@@ -20,8 +20,8 @@ class Chat(Cog_Extension):
         model = genai.GenerativeModel("gemini-1.5-flash")
         response = model.generate_content(promp,
             generation_config = genai.GenerationConfig(
-            max_output_tokens=1000,
-            temperature=0.1,
+            max_output_tokens=3000,
+            temperature=0.7,
             ))
         #print(response.text)
         await ctx.channel.send(response.text)
