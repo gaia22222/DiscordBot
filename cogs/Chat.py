@@ -14,7 +14,8 @@ class Chat(Cog_Extension):
         self.conversation = self.model.start_chat()
         self.designated_channel_id = None
 
-    @commands.hybrid_command(brief='/ask', description='Ask to AI')
+    #@commands.hybrid_command(brief='/ask', description='Ask to AI')
+    @commands.command()
     async def ask(self, ctx, *, message):
         if self.designated_channel_id != ctx.channel.id:
             old_channel = self.bot.get_channel(self.designated_channel_id)  # 获取之前的频道
