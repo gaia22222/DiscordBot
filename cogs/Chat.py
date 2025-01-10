@@ -38,11 +38,18 @@ class Chat(Cog_Extension):
                 #         temperature=0.3,
                 #     )
                 # )
-                await ctx.channel.send(response.text)
+                await self.send_long_message(ctx, response.text)
         except Exception as e:
             await ctx.channel.send("An error occurred during the request")
             print("Something went wrong")
-            print(e)
+            await ctx.send(e)
+
+    async def send_long_message(self, ctx, message):
+        if len(message) <= 1000:
+            await ctx.send(message)
+        else:
+            for i in range(0, len(message), 1000):
+                await ctx.send(message[i:i+1000])
 
     @commands.command()
     @commands.is_owner()
