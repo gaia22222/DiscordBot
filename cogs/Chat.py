@@ -13,6 +13,7 @@ class Chat(Cog_Extension):
         self.model = genai.GenerativeModel("gemini-1.5-flash")
         self.conversation = self.model.start_chat()
         self.designated_channel_id = None
+        self.chat__temperature = 0.3
 
     #@commands.hybrid_command(brief='/ask', description='Ask to AI')
     @commands.command()
@@ -29,8 +30,8 @@ class Chat(Cog_Extension):
             async with ctx.channel.typing():
                 response = self.conversation.send_message(message,
                   generation_config = genai.GenerationConfig(
-                  max_output_tokens=1000,
-                  temperature=0.3,
+                  max_output_tokens = 1000,
+                  temperature = self.chat__temperature,
                 ))
                 # response = self.conversation.generate_content(
                 #     generation_config=genai.GenerationConfig(
@@ -57,6 +58,21 @@ class Chat(Cog_Extension):
         self.conversation = None
         self.designated_channel_id = None # 重置 designated_channel_id
         await ctx.send("現在頻道聊天記錄已重置。")
+
+    @commands.command()
+    @commands.is_owner()
+    async def setchatT(self, ctx, *, temperature):
+        try:
+            temperature = float(temperature)
+            if 0 <= temperature <= 1:
+                self.chat_temperature = temperature
+                await ctx.send(f"更新 Chat - Temperature 為 {temperature}")
+            else:
+                await ctx.send("Temperature 必須在 0 和 1 之間")
+        except ValueError:
+            await ctx.send("請提供一個有效的數字")
+        
+
 
 async def setup(bot):
     await bot.add_cog(Chat(bot))
